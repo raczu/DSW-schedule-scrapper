@@ -71,6 +71,8 @@ def scrap(url: str) -> Union[List[Dict[str, str]], None]:
     webdriver_path: str
     if platform.system() == 'Windows':
         webdriver_path = f'{os.getcwd()}/drivers/geckodriver.exe'
+    elif platform.system() == 'Linux':
+        webdriver_path = f'{os.getcwd()}/drivers/geckodriver-linux'
     else:
         webdriver_path = f'{os.getcwd()}/drivers/geckodriver'
 
