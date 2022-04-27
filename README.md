@@ -25,13 +25,13 @@ The following example is to show you how to generate a file with a specific sche
 2. Choose a group from the list and click it
 
 <p align="center">
-    <img src="images/group-search-result.png" alt="image-1" width="600">
+    <img src="images/group-search-result.png" alt="image-1">
 </p>
 
 3. Copy the link to it
 
 <p align="center">
-    <img src="images/copy-the-url.png" alt="image-2" width="600">
+    <img src="images/copy-the-url.png" alt="image-2">
 </p>
 
 4. Now it's time to run the script! The link you copied earlier will be needed for the script to know where to scrape the data from. To make it run, enter the following command:
@@ -47,7 +47,7 @@ The following example is to show you how to generate a file with a specific sche
 After a short while the script will open the browser, select the proper date on the calendar, then save the data and close the browser. When finished, two messages should pop up informing that the files have been generated corectly.
 
 <p align="center">
-    <img src="images/terminal.png" alt="image-3" width="600">
+    <img src="images/terminal.png" alt="image-3">
 </p>
 
 Done! The files should appear in the same path which we ran the script. The first one with the `.json` extension may be interesting for some people to use it for something, while we are only intrested in the file `DSW.ics` which is a generated schedule that we can import to any calendar application.
