@@ -1,6 +1,6 @@
 import platform
 import os
-import datetime
+from datetime import date, datetime
 from itertools import islice
 from typing import Dict, List, Any, Union
 
@@ -13,7 +13,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
 WebDriver = webdriver.Firefox
-date = datetime.date
 
 SHORT_TIMEOUT: int = 15
 LONG_TIMEOUT: int = 30
@@ -40,7 +39,7 @@ def calendar_handler(driver: WebDriver, dt: date, xpath: str, tb_xpath: str) -> 
         elif int(year) < dt.year:
             driver.find_element(By.XPATH, core + '_DDD_C_NYCImg"]').click()
 
-        converted_month: int = datetime.datetime.strptime(month, '%B').month
+        converted_month: int = datetime.strptime(month, '%B').month
         if converted_month == dt.month:
             break
         elif converted_month > dt.month:
@@ -63,9 +62,9 @@ def calendar_handler(driver: WebDriver, dt: date, xpath: str, tb_xpath: str) -> 
         break
 
 
-def scrap(url: str) -> Union[List[Dict[str, Any]], None]:
+def scrap(url: str) -> Union[List[Dict[str, str]], None]:
     """
-    Scraps a timetable from the page given in the url for
+    Scraps a schedule from the page given in the url for
     the whole term and returns it as a list
     """
 
@@ -79,7 +78,7 @@ def scrap(url: str) -> Union[List[Dict[str, Any]], None]:
         print('[!] Path to webdriver is not correct')
         return None
     else:
-        timetable: List[Dict[str, Any]] = list(dict())
+        schedule: List[Dict[str, str]] = list(dict())
         driver: WebDriver = webdriver.Firefox(executable_path=webdriver_path)
         driver.get(url)
         try:
@@ -96,19 +95,19 @@ def scrap(url: str) -> Union[List[Dict[str, Any]], None]:
             WebDriverWait(driver, timeout=SHORT_TIMEOUT).until(EC.element_to_be_clickable(
                 (By.XPATH, '//*[@id="DataDo_I"]'))
             )
-            today: date = datetime.date.today()
+            today: date = date.today()
             date_from: date
             date_to: date
 
-            if today >= datetime.date(today.year, 7, 1):
-                date_from = datetime.date(today.year, 10, 1)
-                date_to = datetime.date(today.year + 1, 2, 15)
-            elif today <= datetime.date(today.year, 2, 15):
-                date_from = datetime.date(today.year - 1, 10, 1)
-                date_to = datetime.date(today.year, 2, 15)
+            if today >= date(today.year, 7, 1):
+                date_from = date(today.year, 10, 1)
+                date_to = date(today.year + 1, 2, 15)
+            elif today <= date(today.year, 2, 15):
+                date_from = date(today.year - 1, 10, 1)
+                date_to = date(today.year, 2, 15)
             else:
-                date_from = datetime.date(today.year, 2, 15)
-                date_to = datetime.date(today.year, 7, 1)
+                date_from = date(today.year, 2, 15)
+                date_to = date(today.year, 7, 1)
 
             calendar_handler(driver, date_from, '//*[@id="DataOd_B-1"]', '/html/body/table[4]/tbody/tr[2]/td['
                                                                          '2]/div/div[2]/form/table/tbody/tr[2]/td['
@@ -128,11 +127,11 @@ def scrap(url: str) -> Union[List[Dict[str, Any]], None]:
             )
 
         except TimeoutException:
-            print('[!] Unable to find element after waiting few seconds')
+            print('[!] Unable to find element after waiting few seconds.')
             driver.close()
 
         except NoSuchElementException:
-            print('[!] Unable to find element, please wait for updated version of script')
+            print('[!] Unable to find element, please wait for updated version of script.')
             driver.close()
 
         finally:
@@ -164,10 +163,18 @@ def scrap(url: str) -> Union[List[Dict[str, Any]], None]:
                         else:
                             subject = columns[5].get_text()[0] + ' ' + columns[4].get_text().replace('\xa0', '')
 
-                        classroom: str = ', s.'.join(columns[7].get_text().replace('\xa0', '').split(' '))
-                        teacher: str = columns[8].get_text().replace('\xa0', '')
+                        subject = ' '.join(subject.split())
 
-                        timetable.append(
+                        classroom: str = columns[7].get_text().replace('\xa0', '')
+                        if not classroom:
+                            classroom = 'sala wirtualna'
+                        else:
+                            classroom = ', s.'.join(classroom.split())
+
+                        teacher: str = columns[8].get_text().replace('\xa0', '')
+                        teacher = ' '.join(teacher.split())
+
+                        schedule.append(
                             {
                                 'classes_date': classes_date,
                                 'hour_from': hour_from,
@@ -178,4 +185,4 @@ def scrap(url: str) -> Union[List[Dict[str, Any]], None]:
                             }
                         )
 
-        return timetable
+        return schedule
