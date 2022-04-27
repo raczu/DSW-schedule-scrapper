@@ -91,7 +91,7 @@ The following steps are necessary for the script to be ready to use:
 
 ## License
 
-Distributed under the MIT License. See 'LICENSE' for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 Feel free to contact: [@raczuu1](https://twitter.com/raczuu1) - kontakt.raczu@gmail.com
