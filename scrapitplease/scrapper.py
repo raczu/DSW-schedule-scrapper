@@ -28,21 +28,24 @@ def calendar_handler(driver: WebDriver, dt: date, xpath: str, tb_xpath: str) -> 
     driver.find_element(By.XPATH, xpath).click()
 
     core: str = xpath.split('_')[0]
-    while True:
-        received_data: str = driver.find_element(By.XPATH, core + '_DDD_C_T"]').text
-        month: str
-        year: str
-        month, year = received_data.split(' ')
+    received_data: str
+    year: str = '0'
+    while int(year) != dt.year:
+        received_data = driver.find_element(By.XPATH, core + '_DDD_C_T"]').text
+        year = received_data.split(' ')[1]
 
         if int(year) > dt.year:
             driver.find_element(By.XPATH, core + '_DDD_C_PYCImg"]').click()
         elif int(year) < dt.year:
             driver.find_element(By.XPATH, core + '_DDD_C_NYCImg"]').click()
 
-        converted_month: int = datetime.strptime(month, '%B').month
-        if converted_month == dt.month:
-            break
-        elif converted_month > dt.month:
+    converted_month: int = 0
+    while converted_month != dt.month:
+        received_data = driver.find_element(By.XPATH, core + '_DDD_C_T"]').text
+        month: str = received_data.split(' ')[0]
+        converted_month = datetime.strptime(month, '%B').month
+
+        if converted_month > dt.month:
             driver.find_element(By.XPATH, core + '_DDD_C_PMCImg"]').click()
         elif converted_month < dt.month:
             driver.find_element(By.XPATH, core + '_DDD_C_NMCImg"]').click()
@@ -81,7 +84,7 @@ def scrap(url: str) -> Union[List[Dict[str, str]], None]:
         return None
     else:
         schedule: List[Dict[str, str]] = list(dict())
-        driver: WebDriver = webdriver.Firefox(executable_path=webdriver_path)
+        driver: WebDriver = WebDriver(executable_path=webdriver_path)
         driver.get(url)
         try:
             WebDriverWait(driver, timeout=SHORT_TIMEOUT).until(EC.presence_of_element_located(

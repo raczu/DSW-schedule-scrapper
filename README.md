@@ -6,7 +6,7 @@
 ![platform](https://img.shields.io/badge/platform-linux--64%20%7C%20osx--arm64%20%7C%20win--64-lightgrey)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
-Many colleges do not allow students to download their schedule as a file and only provides a view on their website. The schedule on the website is not one of the best solution, because most would prefer to view it using a calendar app, such as on their phones. Scrap it please also known as a DSW-schedule-scrapper is a tool that was created to help DSW students solve this problem. Keeping it short, by using python, more specificaly [selenium](https://www.selenium.dev/) and [beautiful soup](https://www.selenium.dev/) the script scrapes the whole schedule from the website and saves it to a file that can be imported to calendar app.
+Many univerisities do not allow students to download their schedule as a file and only provides a view on their website. The schedule on the website is not one of the best solution, because most would prefer to view it using a calendar app, such as on their phones. Scrap it please also known as a DSW-schedule-scrapper is a tool that was created to help DSW students solve this problem. Keeping it short, by using python, more specificaly [selenium](https://www.selenium.dev/) and [beautiful soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) the script scrapes the whole schedule from the website and saves it to a file that can be imported to calendar app.
 
 ## Table of contents
 
@@ -44,13 +44,13 @@ The following example is to show you how to generate a file with a specific sche
     ```
 **:warning: Warning:** Make sure the pasted link is in quotes!
 
-After a short while the script will open the browser, select the proper date on the calendar, then save the data and close the browser. When finished, two messages should pop up informing that the files have been generated corectly.
+After a short while the script will open the browser, select the proper date on the calendar, then save the data and close the browser. When finished, two messages should pop up informing that the files have been created corectly.
 
 <p align="center">
     <img src="images/terminal.png" alt="image-3">
 </p>
 
-Done! The files should appear in the same path which we ran the script. The first one with the `.json` extension may be interesting for some people to use it for something, while we are only intrested in the file `DSW.ics` which is a generated schedule that we can import to any calendar application.
+Done! The files should appear in the same path which we ran the script. The first one with the `.json` extension may be interesting for some people to use it for something, while we are only intrested in the file `DSW.ics` which is a schedule that we can import to any calendar application.
 
 
 ## Requirements
@@ -71,15 +71,15 @@ The following steps are necessary for the script to be ready to use:
 
 2. Create a python virtual environment and activate it (not necessary but it is a good practice, you can skip this part if you want to)
     ```
-    # Windows
+    # Windows (open terminal as administrator)
     $ python -m venv .venv
     $ set-executionpolicy RemoteSigned
-    $ source .venv\Scripts\activate.bat
-    $ source .venv\Scripts\activate.ps1
+    $ .venv\Scripts\activate.bat
+    $ .venv\Scripts\activate.ps1
 
     # Linux/macOS
     $ python3 -m venv .venv
-    $ source ./venv/bin/activate
+    $ source .venv/bin/activate
     ```
 
 3. Install the requirements
